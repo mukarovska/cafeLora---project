@@ -14,7 +14,7 @@ const drinksObj = data.result;
 
 document.querySelector('#root').innerHTML = render(
   <div className="page" id="home">
-    <Header />
+    <Header showMenu={true} />
     <main>
       <Banner />
       <Menu drinks={drinksObj} />
