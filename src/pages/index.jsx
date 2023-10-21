@@ -25,6 +25,42 @@ document.querySelector('#root').innerHTML = render(
   </div>,
 );
 
+const orderButtons = document.querySelectorAll('.order-btn');
+orderButtons.forEach((button) => {
+  button.addEventListener('click', async (event) => {
+    console.log(event.target.value);
+    if (event.target.innerHTML === 'Zrušit') {
+      const odpoved = await fetch(
+        `http://localhost:4000/api/drinks/${event.target.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            { op: 'replace', path: '/ordered', value: false },
+          ]),
+        },
+      );
+      window.location.reload();
+    } else {
+      const odpoved = await fetch(
+        `http://localhost:4000/api/drinks/${event.target.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            { op: 'replace', path: '/ordered', value: true },
+          ]),
+        },
+      );
+      window.location.reload();
+    }
+  });
+});
+
 //NAVIGACE OTEVÍRÁNÍ A ZAVÍRÁNÍ
 document.querySelector('.nav-btn').addEventListener('click', (event) => {
   const rolloutNavElement = document.querySelector('.rollout-nav');
